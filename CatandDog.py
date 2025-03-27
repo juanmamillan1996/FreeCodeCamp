@@ -4,18 +4,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# Definir algunas variables importantes
+# Define algunas variables importantes
 IMG_HEIGHT = 150
 IMG_WIDTH = 150
 BATCH_SIZE = 32
 
-# Directorios de imágenes (estos deberían ajustarse según el entorno donde trabajes)
+# Directorios de imágenes
 base_dir = "cats_and_dogs"
 train_dir = os.path.join(base_dir, "train")
 validation_dir = os.path.join(base_dir, "validation")
 test_dir = os.path.join(base_dir, "test")
 
-# Generadores de imágenes para entrenar y validar
+# Generador de imágenes para entrenar y validar
 train_image_generator = ImageDataGenerator(rescale=1./255, 
                                            rotation_range=40,
                                            width_shift_range=0.2,
@@ -61,12 +61,12 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(1, activation='sigmoid')  # Clasificación binaria (gato o perro)
 ])
 
-# Compilar el modelo
+# Compila el modelo
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-# Entrenar el modelo
+# Entrena el modelo
 EPOCHS = 10  # Ajustable según rendimiento
 history = model.fit(train_data_gen,
                     steps_per_epoch=len(train_data_gen),
@@ -74,7 +74,7 @@ history = model.fit(train_data_gen,
                     validation_data=validation_data_gen,
                     validation_steps=len(validation_data_gen))
 
-# Evaluar el modelo con imágenes de prueba
+# Evalua el modelo con imágenes de prueba
 probabilities = model.predict(test_data_gen)
 probabilities = [1 if prob > 0.5 else 0 for prob in probabilities]  # Convertir en etiquetas binarias (0=gato, 1=perro)
 
